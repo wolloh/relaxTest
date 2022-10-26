@@ -9,7 +9,7 @@ This API provides  endpoint's for the following:
 * Upload file path: `POST/upload_file`
 ## Details
 
-`GET/get_sequence?type=ASCENDING`
+`http://localhost:8080/get_sequence?type=ASCENDING`
  
  This endpoint  is called to get ascending sequences with maximum length from file 
 
@@ -33,7 +33,7 @@ This API provides  endpoint's for the following:
     ]
 }
 ```
-`GET/get_sequence?type=DESCENDING`
+`http://localhost:8080/get_sequence?type=DESCENDING`
 
 This endpoint is called to get descending sequences with minimum length from file
 
@@ -58,7 +58,7 @@ This endpoint is called to get descending sequences with minimum length from fil
     ]
 }
 ```
-`GET/get_min_value`
+`http://localhost:8080/get_min_value`
 
 This endpoint is called to get minimum value from file 
 
@@ -69,7 +69,7 @@ This endpoint is called to get minimum value from file
     "data": -49999996
 }
 ```
-`GET/get_median`
+`http://localhost:8080/get_median`
 
 This endpoint is called to get median from file 
 
@@ -80,7 +80,7 @@ This endpoint is called to get median from file
     "data": 25216.0
 }
 ```
-`GET/get_max_value`
+`http://localhost:8080/get_max_value`
 
 This endpoint is called to get maximum value  from file 
 
@@ -91,7 +91,7 @@ This endpoint is called to get maximum value  from file
     "data": 49999978
 }
 ```
-`GET/get_arithmetic_mean`
+`http://localhost:8080/get_arithmetic_mean`
 
 This endpoint is called to get arithmetic mean  value  from file 
 
@@ -103,7 +103,7 @@ This endpoint is called to get arithmetic mean  value  from file
 }
 ```
 
-`POST/upload_file`
+`http://localhost:8080/upload_file`
 This endpoint is called to upload file path to api 
 
 ### Body 
