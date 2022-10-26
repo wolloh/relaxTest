@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 public interface ApiService {
-    public Integer findMaxNumber(FileDTO dto) throws FileNotFoundException;
-    public Integer findMinNumber(FileDTO dto ) throws FileNotFoundException;
+    public Integer findMaxNumber() throws FileNotFoundException;
+    public Integer findMinNumber() throws FileNotFoundException;
 
-    public Double findMedian(FileDTO dto) throws FileNotFoundException;
+    public Double findMedian() throws FileNotFoundException;
 
-    public Double findMean(FileDTO dto) throws FileNotFoundException;
-    public ArrayList<ArrayList<Integer>> findSequences(FileDTO dto, SequenceType type )throws FileNotFoundException;
+    public Double findMean() throws FileNotFoundException;
+    public ArrayList<ArrayList<Integer>> findSequences(SequenceType type )throws FileNotFoundException;
 
-    public IntStream createListFromFile(String filePath) throws FileNotFoundException;
+
+    public String uploadFile(FileDTO fileDTO) throws FileNotFoundException;
 }

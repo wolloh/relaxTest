@@ -10,6 +10,13 @@ import java.io.FileNotFoundException;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
+    @ExceptionHandler(value = {NotUploadedFileException.class})
+    public ResponseEntity<Object> handleNotUploadedFileException(NotUploadedFileException e){
+        ApiErrorResponse apiException=new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST,e.getMessage()
+        );
+        return new ResponseEntity<>(apiException,HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(value = {FileNotFoundException.class})
     public ResponseEntity<Object> handleFileNotFoundException(FileNotFoundException e){
         ApiErrorResponse apiException=new ApiErrorResponse(

@@ -9,7 +9,7 @@ public class ApiErrorResponse {
     @Override
     public String toString(){
         return "ApiErorrResponse" +
-                "statusLineCode=" + statusCode +
+                "statusCode=" + statusCode +
                 ", message='" + message + '\'' +
                 '}';
     }

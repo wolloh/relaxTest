@@ -1,40 +1,54 @@
 package com.example.relaxtest.services.impl;
 
 import com.example.relaxtest.enums.SequenceType;
+import com.example.relaxtest.exception.NotUploadedFileException;
 import com.example.relaxtest.exception.SequenceNotFoundException;
 import com.example.relaxtest.model.FileDTO;
 import com.example.relaxtest.services.ApiService;
+import com.example.relaxtest.util.UploadedFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class ApiServiceImpl implements ApiService {
 
+
+    public UploadedFile uploadedFile;
+    @Autowired
+    public ApiServiceImpl(UploadedFile uploadedFile){
+        this.uploadedFile = uploadedFile;
+    }
     @Override
     @Cacheable("max")
-    public Integer findMaxNumber(FileDTO dto) throws FileNotFoundException {
-
-        IntStream numberSequence=createListFromFile(dto.pathFile());
+    public Integer findMaxNumber() throws FileNotFoundException {
+        if(uploadedFile.checkEmptyFilePath())
+            throw new NotUploadedFileException("Upload a file");
+        IntStream numberSequence= uploadedFile.createStream();
         return numberSequence.max().orElseThrow();
     }
 
     @Override
-    @Cacheable("min")
-    public Integer findMinNumber(FileDTO dto) throws FileNotFoundException {
-       IntStream numberSequence=createListFromFile(dto.pathFile());
+    @Cacheable(value = "min")
+    public Integer findMinNumber() throws FileNotFoundException {
+        if(uploadedFile.checkEmptyFilePath())
+            throw new NotUploadedFileException("Upload a file");
+       IntStream numberSequence= uploadedFile.createStream();
        return numberSequence.min().orElseThrow();
 
     }
 
     @Override
     @Cacheable("median")
-    public Double findMedian(FileDTO dto) throws FileNotFoundException {
-        List<Integer> numberSequence=createListFromFile(dto.pathFile())
+    public Double findMedian() throws FileNotFoundException {
+        if(uploadedFile.checkEmptyFilePath())
+            throw new NotUploadedFileException("Upload a file");
+        List<Integer> numberSequence= uploadedFile.createStream()
                 .boxed()
                 .sorted()
                 .toList();
@@ -51,8 +65,10 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     @Cacheable("mean")
-    public Double findMean(FileDTO dto) throws FileNotFoundException {
-        IntStream numberSequence=createListFromFile(dto.pathFile());
+    public Double findMean() throws FileNotFoundException {
+        if(uploadedFile.checkEmptyFilePath())
+            throw new NotUploadedFileException("Upload a file");
+        IntStream numberSequence= uploadedFile.createStream();
         return numberSequence.average().orElseThrow();
     }
 
@@ -60,8 +76,10 @@ public class ApiServiceImpl implements ApiService {
     @Override
     @Cacheable(value = "sequences",key = "#type")
 
-    public ArrayList<ArrayList<Integer>> findSequences(FileDTO dto, SequenceType type) throws FileNotFoundException {
-        List<Integer> numberSequence=createListFromFile(dto.pathFile())
+    public ArrayList<ArrayList<Integer>> findSequences( SequenceType type) throws FileNotFoundException {
+        if(uploadedFile.checkEmptyFilePath())
+            throw new NotUploadedFileException("Upload a file");
+        List<Integer> numberSequence= uploadedFile.createStream()
                 .boxed()
                 .toList();
         ArrayList<ArrayList<Integer>> sequenceArray=new ArrayList<ArrayList<Integer>>();
@@ -105,15 +123,12 @@ public class ApiServiceImpl implements ApiService {
         return sequenceArray;
     }
 
-    public IntStream createListFromFile(String filePath) throws FileNotFoundException {
-        try{
-            BufferedReader in= new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-            Stream<String> numbers=in.lines();
-            return numbers.mapToInt(x->Integer.parseInt(x));
-        }
-        catch (FileNotFoundException e){
-            throw  new FileNotFoundException("Wrong file");
-        }
+
+    @Override
+    public String uploadFile(FileDTO fileDTO){
+        uploadedFile.setFileStream(fileDTO.pathFile());
+        return fileDTO.pathFile() + " Successfully upload";
 
     }
+
 }
