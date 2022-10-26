@@ -27,7 +27,7 @@ public class ApiController{
 
     
     @Operation(summary="Максимальное значение ",description="Нахождение максимального значения чисел файла")
-    @GetMapping(value="/get_max_value")
+    @GetMapping(value="/get_max_value",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<ApiResponse<Integer>> findMaxNumber() throws Exception {
         ApiResponse<Integer> apiResponse =new ApiResponse<>();
         Integer minNumber=_apiService.findMaxNumber();
@@ -46,7 +46,7 @@ public class ApiController{
     }
 
     @Operation(summary = "Медиана",description = "Нахождение медианы из чисел файла ")
-    @GetMapping(value="/get_median")
+    @GetMapping(value="/get_median",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<ApiResponse<Double>> findMedian() throws Exception {
         ApiResponse<Double> apiResponse =new ApiResponse<>();
         Double median=_apiService.findMedian();
@@ -56,7 +56,7 @@ public class ApiController{
 
 
     @Operation(summary = "Среднее арифметическое значение",description = "Нахождение среднего арифметического значения из чисел в файле")
-    @GetMapping(value="/get_arithmetic_mean")
+    @GetMapping(value="/get_arithmetic_mean",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<ApiResponse<Double>> findMean() throws Exception {
         ApiResponse<Double> apiResponse =new ApiResponse<>();
         Double mean=_apiService.findMean();
@@ -65,7 +65,7 @@ public class ApiController{
     }
 
     @Operation(summary = "Последовательности максимальной длины",description = "Нахождение максимальных увеличивающихся либо уменьшающихся последовательностей в файле взависимости от параметра type")
-    @GetMapping(value="/get_sequence")
+    @GetMapping(value="/get_sequence",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<ApiResponse<ArrayList<ArrayList<Integer>>>> findMaxAscendingSeq(
                     @RequestParam("type") @Parameter(description = "Тип последовательности") SequenceType type
     ) throws Exception
@@ -78,7 +78,7 @@ public class ApiController{
 
 
 
-    @PostMapping(value = "/upload_file")
+    @PostMapping(value = "/upload_file",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     @Operation(summary = "Загрузка пути к файлу",description = "Загружает в систему путь к файлу,но не валидирует его ")
     public ResponseEntity<FileResponse> uploadFile(@RequestBody FileDTO fileDTO) throws FileNotFoundException {
         FileResponse fileResponse =new FileResponse();
