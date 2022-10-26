@@ -121,3 +121,7 @@ This endpoint is called to upload file path to api
     "message": "C:/Users/popov/Downloads/10m.txt Successfully upload"
 }
 ```
+
+### Swagger
+
+Swagger available at `http://localhost:{your-port}/swagger-ui/index.html`
